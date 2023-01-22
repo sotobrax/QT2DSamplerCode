@@ -1,2 +1,0 @@
-# QT2DSamplerCode
-sampling
