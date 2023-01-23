@@ -10,7 +10,8 @@
 #include <QLineEdit>
 #include <iostream>
 #include <string>
-
+#include <vector>
+#include <QDebug>
 
 
 QT_BEGIN_NAMESPACE
@@ -27,8 +28,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-private slots:
-    void drawButtonClicked(bool checked, QLineEdit x, QLineEdit y, QLineEdit width, QLineEdit height);
+public slots:
+    //void drawButtonClicked(bool checked, QLineEdit x, QLineEdit y, QLineEdit width, QLineEdit height, std::vector<int>& vector);
 
 };
 

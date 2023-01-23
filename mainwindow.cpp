@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     view->show();
 
     rect->setPos(view->width()/2 - rect->rect().width()/2, view->height()/2 - rect->rect().height()/2);
-
+    rect->setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap));
     //Create erase button
     QPushButton *erase = new QPushButton("Erase", this);
     erase->setGeometry(730, 0, 80, 40);
@@ -60,7 +60,10 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *draw = new QPushButton("Draw", this);
     draw->setGeometry(250, 0, 80, 40);
     draw->setCheckable(true);
-
+    std::vector<int> sizeArray;
+    //connect(draw, SIGNAL(clicked(true)), this, SLOT(drawButtonClicked(true,x,y,width,height,sizeArray)));
+    //connect(draw, &QPushButton::clicked, this, MainWindow::drawButtonClicked(true, x, y, width, height, sizeArray));
+    qDebug()<< sizeArray;
     //Creating a layout
     QHBoxLayout *layout = new QHBoxLayout;
 
@@ -78,12 +81,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::drawButtonClicked(bool checked, QLineEdit x, QLineEdit y, QLineEdit width, QLineEdit height)
+/*void MainWindow::drawButtonClicked(bool checked, QLineEdit x, QLineEdit y, QLineEdit width, QLineEdit height, std::vector<int>& vector)
 {
-    int rx = x.displayText().toInt();
-    int ry = y.displayText().toInt();
-    int rwidth = width.displayText().toInt();
-    int rheight = height.displayText().toInt();
-
-}
+    
+    if (checked) {
+        int rx = x.displayText().toInt();
+        int ry = y.displayText().toInt();
+        int rwidth = width.displayText().toInt();
+        int rheight = height.displayText().toInt();
+        vector.push_back(rx); vector.push_back(ry); vector.push_back(rwidth); vector.push_back(rheight);
+        
+    }
+}*/
 
