@@ -9,17 +9,17 @@ void Rectangle::keyPressEvent(QKeyEvent *event)
 {
     qDebug()<<"key";
     if (event->key() == Qt::Key_A){
-        if(pos().x() >= 10){
+        if(pos().x() >= 0){
             setPos(x()-10, y());
         }
     }
     else if (event->key() == Qt::Key_D){
-        if(pos().x() <= 690){
+        if(pos().x() <= 800){
             setPos(x()+10, y());
         }
     }
     else if (event->key() == Qt::Key_S){
-        if(pos().y() <=490){
+        if(pos().y() <=600){
             setPos(x(), y()+10);
         }
     }
