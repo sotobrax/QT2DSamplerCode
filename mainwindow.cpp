@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "rectangle.h"
 #include "ellipse.h"
+#include "pointline.h"
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -22,9 +23,12 @@ MainWindow::MainWindow(QWidget *parent)
     view->show();
 
     //Adding a combobox for selecting shape
-    selector->addItem("Rectangle"); 
+    selector->addItem("Rectangle");
     selector->addItem("Ellipse"); 
     selector->addItem("Line");
+    for (int i = 0; i < selector->count(); i++) {
+        selector->setItemData(i, Qt::AlignCenter, Qt::TextAlignmentRole);
+    }
 
     //Create erase button
     QPushButton *erase = new QPushButton("Erase", this);
@@ -93,6 +97,14 @@ void MainWindow::drawButtonClicked()
         ellipse->setFlag(QGraphicsItem::ItemIsFocusable);
         ellipse->setFocus();
 
+        
+
+    }
+    else if (rselect == "Line") {
+        QPoint startPos(rx, ry);
+        PointLine* line = new PointLine(this);
+        
+        
         
 
     }

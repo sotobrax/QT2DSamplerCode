@@ -12,11 +12,13 @@ SOURCES += \
     ellipse.cpp \
     main.cpp \
     mainwindow.cpp \
+    pointline.cpp \
     rectangle.cpp
 
 HEADERS += \
     ellipse.h \
     mainwindow.h \
+    pointline.h \
     rectangle.h
 
 FORMS += \
