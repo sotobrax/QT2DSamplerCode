@@ -13,6 +13,8 @@
 #include <vector>
 #include <QDebug>
 #include <QComboBox>
+#include <QMouseEvent>
+#include <QPainter>
 
 
 QT_BEGIN_NAMESPACE
@@ -27,6 +29,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void createLayout();
+
+    void deleteLayout();
+
 
 private:
     Ui::MainWindow *ui;
@@ -36,8 +42,20 @@ private:
     QLineEdit* width = new QLineEdit(this);
     QLineEdit* height = new QLineEdit(this);
     QGraphicsScene* scene = new QGraphicsScene(this);
-public slots:
+    QGridLayout* layout = new QGridLayout;
+    QGraphicsView* view = new QGraphicsView(scene);
+    QPushButton* erase = new QPushButton("Erase", this);
+    QPushButton* draw = new QPushButton("Draw", this);
+private slots:
     void drawButtonClicked();
     //void checkInput(QLineEdit& text);
 };
+
+
+
+
+
+
+
+
 

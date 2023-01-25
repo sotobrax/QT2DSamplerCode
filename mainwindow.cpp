@@ -11,16 +11,20 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setFixedSize(820,840);
     ui->setupUi(this);
-
+    setMouseTracking(true);
+    
+    
     //Setting up the graphicsscene
     scene->setSceneRect(0, 0, 800, 600);
-
-    //add a view
-    QGraphicsView *view = new QGraphicsView(scene);
+    
+ 
+  
+    //Setting up graphicsview
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setFixedSize(800,600);
     view->show();
+
 
     //Adding a combobox for selecting shape
     selector->addItem("Rectangle");
@@ -31,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     //Create erase button
-    QPushButton *erase = new QPushButton("Erase", this);
+    
     erase->setGeometry(730, 0, 80, 40);
     erase->setCheckable(true);
     connect(erase, &QPushButton::clicked, scene, &QGraphicsScene::clear);
@@ -44,20 +48,13 @@ MainWindow::MainWindow(QWidget *parent)
     height->setPlaceholderText("height");
 
     //Creating Draw Button
-    QPushButton *draw = new QPushButton("Draw", this);
+
     draw->setCheckable(true);
     connect(draw, SIGNAL(clicked()), this, SLOT(drawButtonClicked()));
-    //Creating a layout
-    QGridLayout *layout = new QGridLayout;
+
     //Add widgets to layout
-    layout->addWidget(view);
-    layout->addWidget(x);
-    layout->addWidget(y);
-    layout->addWidget(width);
-    layout->addWidget(height);
-    layout->addWidget(draw);
-    layout->addWidget(erase);
-    layout->addWidget(selector);
+    createLayout();
+
     this->centralWidget()->setLayout(layout);
     
 }
@@ -77,9 +74,13 @@ void MainWindow::drawButtonClicked()
     qDebug() << rselect;
     cout << rselect;
     scene->clear();
+
     
     //Create Item
     if (rselect == "Rectangle") {
+
+        deleteLayout();
+        createLayout();
         Rectangle* rect = new Rectangle();
         rect->setRect(0, 0, rwidth, rheight);
         scene->addItem(rect);
@@ -89,6 +90,9 @@ void MainWindow::drawButtonClicked()
         rect->setFocus();
     }
     else if (rselect == "Ellipse") {
+        //pointLine->hide();
+        deleteLayout();
+        createLayout();
         Ellipse* ellipse = new Ellipse();
         ellipse->setRect(0, 0, rwidth, rheight);
         scene->addItem(ellipse);
@@ -101,11 +105,31 @@ void MainWindow::drawButtonClicked()
 
     }
     else if (rselect == "Line") {
-        QPoint startPos(rx, ry);
-        PointLine* line = new PointLine(this);
         
-        
+        QPoint pos(rx, ry);
+        PointLine* pointLine = new PointLine(pos, rwidth);
+        pointLine->setWindowTitle("Line");
+        pointLine->resize(800, 600);
+        layout->replaceWidget(view, pointLine);
+        pointLine->show();
+        connect(draw, SLOT(clicked), pointLine, SLOT(hide()));
+
         
 
+    }
+}
+void MainWindow::createLayout() {
+    layout->addWidget(view);
+    layout->addWidget(x);
+    layout->addWidget(y);
+    layout->addWidget(width);
+    layout->addWidget(height);
+    layout->addWidget(draw);
+    layout->addWidget(erase);
+    layout->addWidget(selector);
+}
+void MainWindow::deleteLayout() {
+    for (int i = 0; i < layout->count(); i++) {
+        layout->removeItem(0);
     }
 }
