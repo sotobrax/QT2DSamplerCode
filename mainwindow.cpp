@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    //Adjusts the MainWindow
     setFixedSize(820,840);
     ui->setupUi(this);
     setMouseTracking(true);
@@ -30,31 +31,36 @@ MainWindow::MainWindow(QWidget *parent)
     selector->addItem("Rectangle");
     selector->addItem("Ellipse"); 
     selector->addItem("Line");
+    //Sets allignment of text to the middle
     for (int i = 0; i < selector->count(); i++) {
         selector->setItemData(i, Qt::AlignCenter, Qt::TextAlignmentRole);
     }
+    //Calls function to adjust the widget layout
+    connect(selector, SIGNAL(activated(int)), this, SLOT(selectorBoxChanged()));
+
 
     //Create erase button
-    
     erase->setGeometry(730, 0, 80, 40);
     erase->setCheckable(true);
+    //Calls erase slots
     connect(erase, &QPushButton::clicked, scene, &QGraphicsScene::clear);
+    connect(erase, SIGNAL(clicked()), this, SLOT(eraseClicked()));
 
     //Adjusts QLineEdit Widgets
-
     x->setPlaceholderText("x position");
     y->setPlaceholderText("y position");
     width->setPlaceholderText("width");
     height->setPlaceholderText("height");
 
     //Creating Draw Button
-
     draw->setCheckable(true);
+    //Calls draw slot
     connect(draw, SIGNAL(clicked()), this, SLOT(drawButtonClicked()));
+
+    
 
     //Add widgets to layout
     createLayout();
-
     this->centralWidget()->setLayout(layout);
     
 }
@@ -64,23 +70,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//Function that is called whenever draw is clicked
 void MainWindow::drawButtonClicked()
 {
+    //Grab user inputs
     int rx = x->displayText().toInt();
     int ry = y->displayText().toInt();
     int rwidth = width->displayText().toInt();
     int rheight = height->displayText().toInt();
     string rselect = selector->currentText().toStdString();
-    qDebug() << rselect;
-    cout << rselect;
+
+    //Clears scene everytime draw is clicked
     scene->clear();
 
     
-    //Create Item
+    //Create Rectangle Item
     if (rselect == "Rectangle") {
-
-        deleteLayout();
-        createLayout();
         Rectangle* rect = new Rectangle();
         rect->setRect(0, 0, rwidth, rheight);
         scene->addItem(rect);
@@ -89,10 +94,8 @@ void MainWindow::drawButtonClicked()
         rect->setFlag(QGraphicsItem::ItemIsFocusable);
         rect->setFocus();
     }
+    //Create Ellipse Item
     else if (rselect == "Ellipse") {
-        //pointLine->hide();
-        deleteLayout();
-        createLayout();
         Ellipse* ellipse = new Ellipse();
         ellipse->setRect(0, 0, rwidth, rheight);
         scene->addItem(ellipse);
@@ -104,21 +107,28 @@ void MainWindow::drawButtonClicked()
         
 
     }
-    else if (rselect == "Line") {
-        
+    //Create Line Item
+    else if (rselect == "Line") {   
         QPoint pos(rx, ry);
-        PointLine* pointLine = new PointLine(pos, rwidth);
-        pointLine->setWindowTitle("Line");
-        pointLine->resize(800, 600);
+        pointLine->setPos(pos);
+        pointLine->setWidth(rwidth);
         layout->replaceWidget(view, pointLine);
         pointLine->show();
-        connect(draw, SLOT(clicked), pointLine, SLOT(hide()));
-
-        
-
     }
 }
+
+//Function to change layout for Rectangle and Ellipse
 void MainWindow::createLayout() {
+    for (int i = 0; i < layout->count(); i++) {
+        layout->removeItem(layout->itemAt(i));
+    }
+    pointLine->hide();
+    x->clear();
+    y->clear();
+    width->clear();
+    height->clear();
+    
+    
     layout->addWidget(view);
     layout->addWidget(x);
     layout->addWidget(y);
@@ -127,9 +137,52 @@ void MainWindow::createLayout() {
     layout->addWidget(draw);
     layout->addWidget(erase);
     layout->addWidget(selector);
+    height->show();
+    
 }
-void MainWindow::deleteLayout() {
+//Layout for the Line option
+void MainWindow::createLineLayout() {
     for (int i = 0; i < layout->count(); i++) {
-        layout->removeItem(0);
+        layout->removeItem(layout->itemAt(i));
     }
+    pointLine->hide();
+    x->clear();
+    y->clear();
+    width->clear();
+    height->clear();
+    height->hide();
+    layout->addWidget(view);
+    layout->addWidget(x);
+    layout->addWidget(y);
+    layout->addWidget(width);
+    layout->addWidget(draw);
+    layout->addWidget(erase);
+    layout->addWidget(selector);
+    pointLine->setFixedSize(800, 600);
+    layout->removeWidget(height);
+    
+    
+}
+
+//Function that is called whenever the combobox is called
+void MainWindow::selectorBoxChanged()
+{
+    if (selector->currentText().toStdString() == "Rectangle") {
+        scene->clear();
+
+        createLayout();
+    }
+    else if (selector->currentText().toStdString() == "Ellipse") {
+        scene->clear();
+        createLayout();
+    }
+    else if (selector->currentText().toStdString() == "Line") {
+        scene->clear();
+        createLineLayout();
+    }
+}
+//Called whenever erase is clicked
+void MainWindow::eraseClicked()
+{
+    createLineLayout();
 }

@@ -14,16 +14,14 @@ SOURCES += \
     mainwindow.cpp \
     pointline.cpp \
     rectangle.cpp \
-    view.cpp
-    view.cpp
+
 
 HEADERS += \
     ellipse.h \
     mainwindow.h \
     pointline.h \
     rectangle.h \
-    view.h
-    view.h
+
 
 FORMS += \
     mainwindow.ui

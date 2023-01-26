@@ -5,7 +5,7 @@ Ellipse::Ellipse()
 {
 
 }
-
+//Function that accept keyboard input whenever the ellipse is focused
 void Ellipse::keyPressEvent(QKeyEvent* event)
 {
     qDebug() << "key";

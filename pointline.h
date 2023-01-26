@@ -15,14 +15,15 @@ class PointLine : public QWidget
 
 public:
     PointLine(QPoint startpos, int width);
-
-
-
+    PointLine();
+    void setPos(QPoint point);
+    void setWidth(int width);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
     
     void mouseMoveEvent(QMouseEvent* event) override;
+
 
 private:
     QPoint m_cursorPos;

@@ -4,7 +4,7 @@ Rectangle::Rectangle()
 {
 
 }
-
+//Function that accept keyboard input whenever the rectangle is focused
 void Rectangle::keyPressEvent(QKeyEvent *event)
 {
     qDebug()<<"key";
