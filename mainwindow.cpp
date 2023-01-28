@@ -184,5 +184,8 @@ void MainWindow::selectorBoxChanged()
 //Called whenever erase is clicked
 void MainWindow::eraseClicked()
 {
-    createLineLayout();
+    if (selector->currentText() == "Line") {
+        createLineLayout();
+    }
+    
 }
