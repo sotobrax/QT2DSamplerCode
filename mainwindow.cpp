@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     //Adjusts the MainWindow
-    setFixedSize(820,840);
+    setFixedSize(820,870);
     ui->setupUi(this);
     setMouseTracking(true);
     
@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     selector->addItem("Rectangle");
     selector->addItem("Ellipse"); 
     selector->addItem("Line");
+    selector->addItem("Circle of Lines");
     //Sets allignment of text to the middle
     for (int i = 0; i < selector->count(); i++) {
         selector->setItemData(i, Qt::AlignCenter, Qt::TextAlignmentRole);
@@ -46,11 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(erase, &QPushButton::clicked, scene, &QGraphicsScene::clear);
     connect(erase, SIGNAL(clicked()), this, SLOT(eraseClicked()));
 
-    //Adjusts QLineEdit Widgets
-    x->setPlaceholderText("x position");
-    y->setPlaceholderText("y position");
-    width->setPlaceholderText("width");
-    height->setPlaceholderText("height");
+
 
     //Creating Draw Button
     draw->setCheckable(true);
@@ -75,9 +72,10 @@ void MainWindow::drawButtonClicked()
 {
     //Grab user inputs
     int rx = x->displayText().toInt();
-    int ry = y->displayText().toInt();
-    int rwidth = width->displayText().toInt();
+    int ry = y->displayText().toInt(); 
+    int rwidth = width->displayText().toInt(); 
     int rheight = height->displayText().toInt();
+    int rradius = radius->displayText().toInt();
     string rselect = selector->currentText().toStdString();
 
     //Clears scene everytime draw is clicked
@@ -115,6 +113,23 @@ void MainWindow::drawButtonClicked()
         layout->replaceWidget(view, pointLine);
         pointLine->show();
     }
+    //Create a circle of lines
+    else if (rselect == "Circle of Lines") {
+        //rx = points
+        //ry = red
+        //rwidth = green
+        //rheight = blue
+        //radius = radius
+        QPen pen;
+        QColor color;
+        color.setRgb(ry, rwidth, rheight);
+        pen.setColor(color);
+        QGraphicsLineItem* line = new QGraphicsLineItem();
+        line->setPen(pen);
+        line->setLine(scene->width() / 2, scene->height() / 2, scene->width() / 4, scene->height() / 4);
+        scene->addItem(line);
+        
+    }
 }
 
 //Function to change layout for Rectangle and Ellipse
@@ -127,7 +142,12 @@ void MainWindow::createLayout() {
     y->clear();
     width->clear();
     height->clear();
-    
+    radius->hide();
+    //Adjusts QLineEdit Widgets
+    x->setPlaceholderText("x position");
+    y->setPlaceholderText("y position");
+    width->setPlaceholderText("width");
+    height->setPlaceholderText("height");
     
     layout->addWidget(view);
     layout->addWidget(x);
@@ -145,12 +165,16 @@ void MainWindow::createLineLayout() {
     for (int i = 0; i < layout->count(); i++) {
         layout->removeItem(layout->itemAt(i));
     }
+    x->setPlaceholderText("x position");
+    y->setPlaceholderText("y position");
+    width->setPlaceholderText("width");
     pointLine->hide();
     x->clear();
     y->clear();
     width->clear();
     height->clear();
     height->hide();
+    radius->hide();
     layout->addWidget(view);
     layout->addWidget(x);
     layout->addWidget(y);
@@ -162,6 +186,36 @@ void MainWindow::createLineLayout() {
     layout->removeWidget(height);
     
     
+}
+void MainWindow::createCircleofLinesLayout() {
+    for (int i = 0; i < layout->count(); i++) {
+        layout->removeItem(layout->itemAt(i));
+    }
+    pointLine->hide();
+    radius->show();
+    x->clear();
+    y->clear();
+    width->clear();
+    height->clear();
+    x->setPlaceholderText("Number of Points");
+    radius->setPlaceholderText("Radius");
+    y->setPlaceholderText("Red Value: 0-255");
+    width->setPlaceholderText("Green Value: 0-255");
+    height->setPlaceholderText("Blue Value: 0-255");
+
+    layout->addWidget(view);
+    layout->addWidget(x);
+    layout->addWidget(radius);
+    layout->addWidget(y);
+ 
+    layout->addWidget(width);
+    layout->addWidget(height);
+    
+    layout->addWidget(draw);
+    layout->addWidget(erase);
+    layout->addWidget(selector);
+    height->show();
+
 }
 
 //Function that is called whenever the combobox is called
@@ -179,6 +233,10 @@ void MainWindow::selectorBoxChanged()
     else if (selector->currentText().toStdString() == "Line") {
         scene->clear();
         createLineLayout();
+    }
+    else if (selector->currentText().toStdString() == "Circle of Lines") {
+        scene->clear();
+        createCircleofLinesLayout();
     }
 }
 //Called whenever erase is clicked

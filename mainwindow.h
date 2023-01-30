@@ -33,7 +33,7 @@ public:
     void createLayout();
 
     void createLineLayout();
-
+    void createCircleofLinesLayout();
     //void deleteLayout();
 
 
@@ -44,6 +44,7 @@ private:
     QLineEdit* y = new QLineEdit(this);
     QLineEdit* width = new QLineEdit(this);
     QLineEdit* height = new QLineEdit(this);
+    QLineEdit* radius = new QLineEdit(this);
     QGraphicsScene* scene = new QGraphicsScene(this);
     QGridLayout* layout = new QGridLayout;
     QGraphicsView* view = new QGraphicsView(scene);
