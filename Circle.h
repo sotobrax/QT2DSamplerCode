@@ -1,19 +1,35 @@
 #pragma once
 #include <QGraphicsLineItem>
 #include <iostream>
+#include <QPen>
+#include <QGraphicsItemGroup>
+#include <QWidget>
+#include <QPainter>
 
-class Circle
+ 
+class Circle : public QWidget
 {
-	Circle(QColor col, int radius, int points, int x, int y);
-	
+public:
+	Circle(QColor col, int radius, int points, QPoint xy);
+protected:
+	void paintEvent(QPaintEvent* paintEvent);
 private:
 	int rads;
 	int point;
 	int xx;
 	int yy;
+	int angleRadians;
+	QPoint origin;
+	QPoint result;
 	QColor color;
-	std::vector<int> pointList;
-	void position();
-	void findPoints(int numPoints, int radius);
+	QPen pen;
+	std::vector<QGraphicsLineItem> lines;
+	std::vector<QPoint> pointList;
+	//void position();
+	void findPoints();
+	bool pointListCheck(QPoint r);
+	void drawLines();
+	//void createLines();
+
 };
 

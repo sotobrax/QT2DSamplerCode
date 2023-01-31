@@ -3,6 +3,7 @@
 #include "rectangle.h"
 #include "ellipse.h"
 #include "pointline.h"
+#include "Circle.h"
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -119,15 +120,17 @@ void MainWindow::drawButtonClicked()
         //ry = red
         //rwidth = green
         //rheight = blue
-        //radius = radius
+        //rradius = radius
         QPen pen;
         QColor color;
         color.setRgb(ry, rwidth, rheight);
         pen.setColor(color);
-        QGraphicsLineItem* line = new QGraphicsLineItem();
-        line->setPen(pen);
-        line->setLine(scene->width() / 2, scene->height() / 2, scene->width() / 4, scene->height() / 4);
-        scene->addItem(line);
+        QPoint xy;
+        xy.setX(scene->width() / 2);
+        xy.setY(scene->height() / 2);
+        Circle *circle = new Circle(color, rradius, rx, xy);
+       // scene->addItem(circle);
+        circle->show();
         
     }
 }
