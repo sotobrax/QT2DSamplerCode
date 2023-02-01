@@ -16,6 +16,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include "pointline.h"
+#include "circle.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -34,8 +35,6 @@ public:
 
     void createLineLayout();
     void createCircleofLinesLayout();
-    //void deleteLayout();
-
 
 private:
     Ui::MainWindow *ui;
@@ -51,11 +50,12 @@ private:
     QPushButton* erase = new QPushButton("Erase", this);
     QPushButton* draw = new QPushButton("Draw", this);
     PointLine* pointLine = new PointLine();
+    Circle *circle = new Circle();
 private slots:
     void drawButtonClicked();
     void selectorBoxChanged();
     void eraseClicked();
-    //void checkInput(QLineEdit& text);
+
 };
 
 

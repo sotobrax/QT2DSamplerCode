@@ -2,15 +2,34 @@
 #include "qmath.h"
 using namespace std;
 
-Circle::Circle(QColor col, int radius, int points, QPoint xy)
+Circle::Circle()
 {
-	color = col;
-	rads = radius;
-	point = points;
+}
+
+void Circle::setColor(QColor col)
+{
+    pen.setColor(col);
+}
+
+void Circle::setRadius(int radius)
+{
+    rads = radius;
+}
+
+void Circle::setPoints(int points)
+{
+    point = points;
+}
+
+void Circle::setOrigin(QPoint xy)
+{
     origin.setX(xy.x());
     origin.setY(xy.y());
-    pen.setColor(col);
-    angleRadians = (M_PI * 2) / points;
+}
+
+void Circle::eraseCircle()
+{
+    painter->eraseRect(0, 0, 800, 600);
 }
 
 void Circle::findPoints()
@@ -37,16 +56,17 @@ bool Circle::pointListCheck(QPoint r) {
 }
 void Circle::paintEvent(QPaintEvent * paintEvent) {
     cout << "painting lines of circles";
+    angleRadians = (M_PI * 2) / point;
     findPoints();
-    QPainter painter(this);
-    painter.setPen(pen);
+
+    painter->setPen(pen);
     qDebug() << pointList.size();
     cout << pointList.size();
     for (int i = 0; i < point; i++) {
         for (int j = i; j < point; j++) {
 
 
-            painter.drawLine(pointList[i].x(), pointList[i].y(), pointList[j].x(), pointList[j].y());
+            painter->drawLine(pointList[i].x(), pointList[i].y(), pointList[j].x(), pointList[j].y());
         }
     }
 }
