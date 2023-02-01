@@ -4,6 +4,7 @@ using namespace std;
 
 Circle::Circle()
 {
+
 }
 
 void Circle::setColor(QColor col)
@@ -27,10 +28,10 @@ void Circle::setOrigin(QPoint xy)
     origin.setY(xy.y());
 }
 
-void Circle::eraseCircle()
+/*void Circle::eraseCircle()
 {
     painter->eraseRect(0, 0, 800, 600);
-}
+}*/
 
 void Circle::findPoints()
 {
@@ -58,15 +59,15 @@ void Circle::paintEvent(QPaintEvent * paintEvent) {
     cout << "painting lines of circles";
     angleRadians = (M_PI * 2) / point;
     findPoints();
-
-    painter->setPen(pen);
+    QPainter painter(this);
+    painter.setPen(pen);
     qDebug() << pointList.size();
     cout << pointList.size();
     for (int i = 0; i < point; i++) {
         for (int j = i; j < point; j++) {
 
 
-            painter->drawLine(pointList[i].x(), pointList[i].y(), pointList[j].x(), pointList[j].y());
+            painter.drawLine(pointList[i].x(), pointList[i].y(), pointList[j].x(), pointList[j].y());
         }
     }
 }

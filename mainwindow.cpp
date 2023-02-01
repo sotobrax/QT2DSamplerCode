@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Calls erase slots
     connect(erase, &QPushButton::clicked, scene, &QGraphicsScene::clear);
     connect(erase, SIGNAL(clicked()), this, SLOT(eraseClicked()));
-    connect(erase, SIGNAL(clicked()), circle, SLOT(circle->eraseCircle()));
+    //connect(erase, SIGNAL(clicked()), circle, SLOT(circle->eraseCircle()));
 
 
 
@@ -133,6 +133,7 @@ void MainWindow::drawButtonClicked()
         circle->setPoints(rx);
         circle->setOrigin(xy);
         circle->setRadius(rradius);
+        layout->replaceWidget(view, circle);
 
         circle->show();
         
@@ -145,6 +146,7 @@ void MainWindow::createLayout() {
         layout->removeItem(layout->itemAt(i));
     }
     pointLine->hide();
+    circle->hide();
     x->clear();
     y->clear();
     width->clear();
@@ -176,6 +178,7 @@ void MainWindow::createLineLayout() {
     y->setPlaceholderText("y position");
     width->setPlaceholderText("width");
     pointLine->hide();
+    circle->hide();
     x->clear();
     y->clear();
     width->clear();
@@ -199,6 +202,7 @@ void MainWindow::createCircleofLinesLayout() {
         layout->removeItem(layout->itemAt(i));
     }
     pointLine->hide();
+    circle->hide();
     radius->show();
     x->clear();
     y->clear();
@@ -210,7 +214,7 @@ void MainWindow::createCircleofLinesLayout() {
     width->setPlaceholderText("Green Value: 0-255");
     height->setPlaceholderText("Blue Value: 0-255");
 
-    layout->addWidget(circle);
+    layout->addWidget(view);
     layout->addWidget(x);
     layout->addWidget(radius);
     layout->addWidget(y);
@@ -251,6 +255,9 @@ void MainWindow::eraseClicked()
 {
     if (selector->currentText() == "Line") {
         createLineLayout();
+    }
+    if (selector->currentText() == "Circle of Lines") {
+        createCircleofLinesLayout();
     }
     
 }
