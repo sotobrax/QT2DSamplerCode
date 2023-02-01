@@ -9,27 +9,24 @@
  
 class Circle : public QWidget
 {
+	Q_OBJECT
 public:
 	Circle(QColor col, int radius, int points, QPoint xy);
 protected:
 	void paintEvent(QPaintEvent* paintEvent);
 private:
-	int rads;
-	int point;
-	int xx;
-	int yy;
-	int angleRadians;
+	double rads;
+	double point;
+	double angleRadians;
 	QPoint origin;
 	QPoint result;
 	QColor color;
 	QPen pen;
-	std::vector<QGraphicsLineItem> lines;
 	std::vector<QPoint> pointList;
-	//void position();
+
 	void findPoints();
 	bool pointListCheck(QPoint r);
-	void drawLines();
-	//void createLines();
+
 
 };
 

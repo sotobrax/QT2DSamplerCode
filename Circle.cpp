@@ -11,15 +11,8 @@ Circle::Circle(QColor col, int radius, int points, QPoint xy)
     origin.setY(xy.y());
     pen.setColor(col);
     angleRadians = (M_PI * 2) / points;
-    
-    //createLines();
-    //drawLines();
-
 }
 
-/*void Circle::position(int radius) {
-    origin.setX()
-}*/
 void Circle::findPoints()
 {
     cout << "Finding points";
@@ -36,7 +29,6 @@ void Circle::findPoints()
 }
 bool Circle::pointListCheck(QPoint r) {
     for (int i = 0; i < pointList.size(); i++) {
-        cout << printf("Checking points: ", i);
         if (pointList[i] == r) {
             return true;
         }
@@ -48,20 +40,13 @@ void Circle::paintEvent(QPaintEvent * paintEvent) {
     findPoints();
     QPainter painter(this);
     painter.setPen(pen);
-    
+    qDebug() << pointList.size();
     cout << pointList.size();
     for (int i = 0; i < point; i++) {
         for (int j = i; j < point; j++) {
-            qDebug() << printf("Drawing points:", i);
+
 
             painter.drawLine(pointList[i].x(), pointList[i].y(), pointList[j].x(), pointList[j].y());
         }
-    }
-}
-void Circle::drawLines() {
-    for (int i = 0; i < lines.size(); i++) {
-        lines[i].setPen(pen);
-        lines[i].show();
-
     }
 }
