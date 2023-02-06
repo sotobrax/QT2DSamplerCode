@@ -51,6 +51,7 @@ private:
     QPushButton* draw = new QPushButton("Draw", this);
     PointLine* pointLine = new PointLine();
     Circle *circle = new Circle();
+    QComboBox* color = new QComboBox(this);
 private slots:
     void drawButtonClicked();
     void selectorBoxChanged();

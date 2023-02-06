@@ -37,6 +37,16 @@ MainWindow::MainWindow(QWidget *parent)
     for (int i = 0; i < selector->count(); i++) {
         selector->setItemData(i, Qt::AlignCenter, Qt::TextAlignmentRole);
     }
+    //Setting up color selector for Rectangle and Ellipse
+    color->addItem("Red");
+    color->addItem("Black");
+    color->addItem("Blue");
+    color->addItem("Orange");
+    color->addItem("Purple");
+    color->addItem("Yellow");
+    color->addItem("White");
+    color->addItem("Brown");
+
     //Calls function to adjust the widget layout
     connect(selector, SIGNAL(activated(int)), this, SLOT(selectorBoxChanged()));
 
@@ -79,6 +89,7 @@ void MainWindow::drawButtonClicked()
     int rheight = height->displayText().toInt();
     int rradius = radius->displayText().toInt();
     string rselect = selector->currentText().toStdString();
+    QString rcolor = color->currentText();
 
     //Clears scene everytime draw is clicked
     scene->clear();
@@ -90,7 +101,14 @@ void MainWindow::drawButtonClicked()
         rect->setRect(0, 0, rwidth, rheight);
         scene->addItem(rect);
         rect->setPos(rx, ry);
+        QColor col;
+        col.setNamedColor(rcolor);
         rect->setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap));
+        QBrush brush;
+        brush.setColor(col);
+        brush.setStyle(Qt::SolidPattern);
+        rect->setBrush(brush);
+
         rect->setFlag(QGraphicsItem::ItemIsFocusable);
         rect->setFocus();
     }
@@ -98,6 +116,14 @@ void MainWindow::drawButtonClicked()
     else if (rselect == "Ellipse") {
         Ellipse* ellipse = new Ellipse();
         ellipse->setRect(0, 0, rwidth, rheight);
+        QColor col;
+        col.setNamedColor(rcolor);
+
+        QBrush brush;
+        brush.setColor(col);
+        brush.setStyle(Qt::SolidPattern);
+        ellipse->setBrush(brush);
+
         scene->addItem(ellipse);
         ellipse->setPos(rx, ry);
         ellipse->setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap));
@@ -109,9 +135,12 @@ void MainWindow::drawButtonClicked()
     }
     //Create Line Item
     else if (rselect == "Line") {   
+        QColor col;
+        col.setNamedColor(rcolor);
         QPoint pos(rx, ry);
         pointLine->setPos(pos);
         pointLine->setWidth(rwidth);
+        pointLine->setColor(col);
         layout->replaceWidget(view, pointLine);
         pointLine->show();
     }
@@ -152,6 +181,7 @@ void MainWindow::createLayout() {
     width->clear();
     height->clear();
     radius->hide();
+    color->show();
     //Adjusts QLineEdit Widgets
     x->setPlaceholderText("x position");
     y->setPlaceholderText("y position");
@@ -163,6 +193,7 @@ void MainWindow::createLayout() {
     layout->addWidget(y);
     layout->addWidget(width);
     layout->addWidget(height);
+    layout->addWidget(color);
     layout->addWidget(draw);
     layout->addWidget(erase);
     layout->addWidget(selector);
@@ -179,6 +210,8 @@ void MainWindow::createLineLayout() {
     width->setPlaceholderText("width");
     pointLine->hide();
     circle->hide();
+    color->show();
+    
     x->clear();
     y->clear();
     width->clear();
@@ -189,6 +222,7 @@ void MainWindow::createLineLayout() {
     layout->addWidget(x);
     layout->addWidget(y);
     layout->addWidget(width);
+    layout->addWidget(color);
     layout->addWidget(draw);
     layout->addWidget(erase);
     layout->addWidget(selector);
@@ -203,6 +237,7 @@ void MainWindow::createCircleofLinesLayout() {
     }
     pointLine->hide();
     circle->hide();
+    color->hide();
     radius->show();
     x->clear();
     y->clear();

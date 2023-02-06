@@ -18,6 +18,7 @@ public:
     PointLine();
     void setPos(QPoint point);
     void setWidth(int width);
+    void setColor(QColor color);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
@@ -28,6 +29,7 @@ protected:
 private:
     QPoint m_cursorPos;
     QPoint startPos;
+    QColor col;
     int length;
     int width;
 };

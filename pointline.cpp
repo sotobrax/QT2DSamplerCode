@@ -20,8 +20,9 @@ void PointLine::paintEvent(QPaintEvent* event)
     Q_UNUSED(event);
 
     QPainter painter(this);
-
-    painter.setPen(QPen(Qt::black, width, Qt::SolidLine, Qt::RoundCap));
+    QPen pen = QPen(Qt::black, width, Qt::SolidLine, Qt::RoundCap);
+    pen.setColor(col);
+    painter.setPen(pen);
     painter.drawLine(startPos, m_cursorPos);
 }
 
@@ -40,4 +41,9 @@ void PointLine::setPos(QPoint pos)
 void PointLine::setWidth(int w)
 {
     width = w;
+}
+
+void PointLine::setColor(QColor color)
+{
+    col = color;
 }
