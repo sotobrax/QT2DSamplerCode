@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     setMouseTracking(true);
     
     
+    
     //Setting up the graphicsscene
     scene->setSceneRect(0, 0, 800, 600);
     
