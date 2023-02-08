@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Calls erase slots
     connect(erase, &QPushButton::clicked, scene, &QGraphicsScene::clear);
     connect(erase, SIGNAL(clicked()), this, SLOT(eraseClicked()));
-    //connect(erase, SIGNAL(clicked()), circle, SLOT(circle->eraseCircle()));
+
 
 
 
@@ -232,6 +232,7 @@ void MainWindow::createLineLayout() {
     
     
 }
+//Creating UI Layout for circle of lines
 void MainWindow::createCircleofLinesLayout() {
     for (int i = 0; i < layout->count(); i++) {
         layout->removeItem(layout->itemAt(i));

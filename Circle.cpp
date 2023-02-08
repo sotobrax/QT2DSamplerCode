@@ -28,11 +28,8 @@ void Circle::setOrigin(QPoint xy)
     origin.setY(xy.y());
 }
 
-/*void Circle::eraseCircle()
-{
-    painter->eraseRect(0, 0, 800, 600);
-}*/
 
+// Function to find points and add them to pointList vector
 void Circle::findPoints()
 {
     cout << "Finding points";
@@ -47,6 +44,7 @@ void Circle::findPoints()
     }
     
 }
+//Checks to make sure points are not already in the pointlist
 bool Circle::pointListCheck(QPoint r) {
     for (int i = 0; i < pointList.size(); i++) {
         if (pointList[i] == r) {
@@ -55,6 +53,7 @@ bool Circle::pointListCheck(QPoint r) {
     }
     return false;
 }
+// Draws the lines 
 void Circle::paintEvent(QPaintEvent * paintEvent) {
     cout << "painting lines of circles";
     angleRadians = (M_PI * 2) / point;
